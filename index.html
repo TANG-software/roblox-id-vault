@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blox ID Vault — Roblox Animation &amp; Sound ID Finder</title>
+  <meta name="description" content="Search, preview links and copy Roblox animation IDs and sound/audio IDs. Includes default character animations, emotes, and popular music and meme sound IDs." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237c5cff'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='monospace'%3EID%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">ID</span>
+        <span class="brand-name">Blox ID Vault</span>
+      </a>
+      <nav class="header-nav">
+        <a href="#library">Library</a>
+        <a href="#extractor">ID Extractor</a>
+        <a href="#how-to">How to use</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <h1>Find, copy and use Roblox <span class="grad">animation &amp; sound IDs</span></h1>
+        <p class="lede">
+          A single place for the IDs players and developers actually need: every default
+          character animation, the built-in emotes, and a curated set of music, meme and
+          sound-effect audio IDs. Search, copy with one click, or paste any Roblox link to
+          pull the ID straight out of it.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#library">Browse the library</a>
+          <a class="btn btn-ghost" href="#extractor">Extract an ID from a link</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK EXPLAINER -->
+    <section class="wrap explainer">
+      <div class="explain-card">
+        <h3>Animation IDs</h3>
+        <p>
+          The numeric ID of an animation asset. Default character moves (idle, walk, run,
+          jump, fall, climb, swim) and emotes (wave, point, dance, laugh, cheer) each have one.
+          Set it in a script with <code>animation.AnimationId = "rbxassetid://ID"</code>, or
+          swap the value inside the character's <code>Animate</code> script.
+        </p>
+      </div>
+      <div class="explain-card">
+        <h3>Sound IDs (a.k.a. audio / music / boombox IDs)</h3>
+        <p>
+          The numeric ID of an audio asset. The same number works in a <code>Sound</code>
+          object in Studio, in an in-game boombox or radio, or a car stereo — you just paste
+          the raw number. This is what most players mean by "song IDs".
+        </p>
+      </div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section id="library" class="wrap library">
+      <div class="lib-head">
+        <h2>The Vault</h2>
+        <p class="muted">Click any ID to copy it. Use the star to keep favourites on this device.</p>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="animations" role="tab">Animations <span class="count" id="count-animations"></span></button>
+        <button class="tab" data-tab="sounds" role="tab">Sounds &amp; Music <span class="count" id="count-sounds"></span></button>
+      </div>
+
+      <div class="controls">
+        <input id="search" class="search" type="search" placeholder="Search by name, ID or tag — e.g. dance, phonk, jump, 507777826…" autocomplete="off" />
+        <button id="fav-toggle" class="btn btn-ghost small" type="button">★ Favourites only</button>
+      </div>
+
+      <div id="chips" class="chips"></div>
+      <div id="results" class="results"></div>
+      <p id="empty" class="empty" hidden>No matches. Try a different word, or clear the filters.</p>
+    </section>
+
+    <!-- EXTRACTOR -->
+    <section id="extractor" class="wrap extractor">
+      <h2>ID Extractor</h2>
+      <p class="muted">
+        Paste a Roblox link, a <code>rbxassetid://</code> string, or a raw number and we'll
+        pull out the ID and give you quick actions.
+      </p>
+      <div class="extract-row">
+        <input id="extract-input" class="search" type="text" placeholder="https://www.roblox.com/library/142376088/… or rbxassetid://507771019" autocomplete="off" />
+        <button id="extract-btn" class="btn btn-primary" type="button">Extract</button>
+      </div>
+      <div id="extract-out" class="extract-out" hidden></div>
+    </section>
+
+    <!-- HOW TO -->
+    <section id="how-to" class="wrap howto">
+      <h2>How to use an ID</h2>
+
+      <div class="howto-grid">
+        <div class="howto-card">
+          <h3>Play an animation (script)</h3>
+          <pre><code>local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local animator = humanoid:WaitForChild("Animator")
+
+local anim = Instance.new("Animation")
+anim.AnimationId = "rbxassetid://507771019" -- default dance
+
+local track = animator:LoadAnimation(anim)
+track:Play()</code></pre>
+        </div>
+
+        <div class="howto-card">
+          <h3>Replace a default animation</h3>
+          <pre><code>local Players = game:GetService("Players")
+
+Players.PlayerAdded:Connect(function(player)
+  player.CharacterAdded:Connect(function(character)
+    local animate = character:WaitForChild("Animate")
+    -- swap the walk cycle for your own animation ID
+    animate.walk.WalkAnim.AnimationId = "rbxassetid://YOUR_ID"
+  end)
+end)</code></pre>
+        </div>
+
+        <div class="howto-card">
+          <h3>Play a sound (Studio)</h3>
+          <pre><code>local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://142376088" -- Raining Tacos
+sound.Volume = 1
+sound.Parent = workspace
+sound:Play()</code></pre>
+        </div>
+
+        <div class="howto-card">
+          <h3>Use a sound in-game (boombox)</h3>
+          <ol>
+            <li>Join a game that has a boombox, radio or car stereo (e.g. Brookhaven, Berry Avenue, Catalog Heaven).</li>
+            <li>Equip the music item.</li>
+            <li>Paste the <strong>plain number</strong> into its input box and press play.</li>
+          </ol>
+          <p class="muted small">Some games sell the boombox as a game pass and some disable custom audio entirely.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Why some sound IDs stop working:</strong> since Roblox's 2022 audio privacy
+        update, uploaded audio can be made private, removed or blocked per-experience. A valid
+        ID may still be silent in a specific game. Default animation IDs are stable.
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Blox ID Vault — an independent fan tool. Not affiliated with or endorsed by Roblox Corporation.</p>
+      <p class="muted small">
+        Animation IDs are Roblox's default character animations and catalog emotes. Sound IDs
+        are public audio assets and may change or be removed at any time — always test in-game.
+      </p>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
