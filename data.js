@@ -80,8 +80,8 @@ const ANIMATIONS = [
   { name: "Tilt", id: "3360692915", category: "Catalog Emotes", tags: ["emote", "tilt"] },
   { name: "Stadium", id: "3338055167", category: "Catalog Emotes", tags: ["emote", "stadium", "crowd"] },
   { name: "Point (Catalog)", id: "3344585679", category: "Catalog Emotes", tags: ["emote", "point"] },
-  { name: "Floss", id: "5915779043", category: "Catalog Emotes", tags: ["emote", "dance", "floss"] },
-  { name: "Dab", id: "4212499637", category: "Catalog Emotes", tags: ["emote", "dance", "dab"] },
+  { name: "Applaud", id: "5915779043", category: "Catalog Emotes", tags: ["emote", "dance", "floss"] },
+  { name: "Dorky Dance", id: "4212499637", category: "Catalog Emotes", tags: ["emote", "dance", "dab"] },
   { name: "Hype Dance", id: "3695333486", category: "Catalog Emotes", tags: ["emote", "dance", "hype"] },
   { name: "Monkey", id: "3333499508", category: "Catalog Emotes", tags: ["emote", "dance", "monkey"] },
   { name: "Robot", id: "3338025566", category: "Catalog Emotes", tags: ["emote", "dance", "robot"] },
@@ -138,15 +138,8 @@ const SOUNDS = [
   { name: "Chill Jazz", id: "926493242", category: "Ambient / Chill", tags: ["jazz", "cafe", "roleplay"] },
   { name: "Relaxed Scene", id: "1848354536", category: "Ambient / Chill", tags: ["background", "tycoon"] },
   { name: "Time To Relax", id: "9044702906", category: "Ambient / Chill", tags: ["cafe", "idle", "chill"] },
-  { name: "Rain Ambience", id: "1843670378", category: "Ambient / Chill", tags: ["rain", "weather", "loop"] },
-  { name: "Fire Crackling", id: "1851463645", category: "Ambient / Chill", tags: ["fire", "campfire", "loop"] },
-  { name: "Wind", id: "2662419014", category: "Ambient / Chill", tags: ["wind", "weather", "loop"] },
-  { name: "Door Creak", id: "4842621355", category: "Ambient / Chill", tags: ["horror", "door", "sfx"] },
 
   // ---- Meme / Funny ----
-  { name: "Vine Boom", id: "5153845975", category: "Meme / Funny", tags: ["vine", "boom", "meme"] },
-  { name: "Bruh Sound Effect", id: "5153845942", category: "Meme / Funny", tags: ["bruh", "meme"] },
-  { name: "Metal Pipe Falling", id: "6042077897", category: "Meme / Funny", tags: ["meme", "clang"] },
   { name: "Epic Sax Guy", id: "130775431", category: "Meme / Funny", tags: ["sax", "meme", "eurovision"] },
   { name: "Among Us Drip", id: "6486359635", category: "Meme / Funny", tags: ["among us", "drip", "meme"] },
   { name: "Mii Channel Music", id: "143666548", category: "Meme / Funny", tags: ["nintendo", "mii", "meme"] },
@@ -163,23 +156,14 @@ const SOUNDS = [
   { name: "I'm Batman", id: "130769318", category: "Meme / Funny", tags: ["batman", "movie"] },
 
   // ---- Sound Effects ----
-  { name: "Oof (Classic)", id: "131961136", category: "Sound Effects", tags: ["oof", "death", "roblox"] },
   { name: "Roblox Oof Sound", id: "3060494212", category: "Sound Effects", tags: ["oof", "death", "roblox"] },
-  { name: "Airhorn", id: "131072554", category: "Sound Effects", tags: ["airhorn", "horn"] },
-  { name: "MLG Airhorn", id: "4565899976", category: "Sound Effects", tags: ["mlg", "airhorn", "meme"] },
-  { name: "Sad Trombone", id: "141679876", category: "Sound Effects", tags: ["fail", "sad", "womp"] },
   { name: "Windows XP Error", id: "138167455", category: "Sound Effects", tags: ["error", "windows"] },
   { name: "Godzilla Roar", id: "130783046", category: "Sound Effects", tags: ["roar", "monster"] },
   { name: "Bonk!", id: "130944130", category: "Sound Effects", tags: ["bonk", "hit"] },
   { name: "Explosion", id: "130113415", category: "Sound Effects", tags: ["boom", "explosion", "combat"] },
   { name: "Gunshot", id: "131070686", category: "Sound Effects", tags: ["gun", "combat", "shooter"] },
-  { name: "Footsteps", id: "536756532", category: "Sound Effects", tags: ["footsteps", "walk"] },
-  { name: "Jump Sound", id: "131513516", category: "Sound Effects", tags: ["jump", "platformer"] },
 
   // ---- UI / Game ----
-  { name: "Coin Collect", id: "4697536610", category: "UI / Game", tags: ["coin", "reward", "pickup"] },
-  { name: "Level Up", id: "1837694600", category: "UI / Game", tags: ["level up", "reward", "achievement"] },
-  { name: "Default Click", id: "72046313", category: "UI / Game", tags: ["click", "button", "ui"] },
 
   // ---- Music (expanded set) ----
   { name: "Life in an Elevator", id: "1841647093", category: "Music", tags: ["elevator", "background", "lobby"] },
@@ -203,9 +187,7 @@ const SOUNDS = [
   { name: "God Is a Woman — Ariana Grande", id: "2071829884", category: "Music", tags: ["pop"] },
   { name: "Brutal — Olivia Rodrigo", id: "6937354391", category: "Music", tags: ["pop", "rock"] },
   { name: "You Belong With Me — Taylor Swift", id: "6159978466", category: "Music", tags: ["pop", "country"] },
-  { name: "Black And Yellow — Wiz Khalifa", id: "139245100", category: "Music", tags: ["rap", "hip hop"] },
   { name: "Cult of Personality", id: "4831009971", category: "Music", tags: ["rock"] },
-  { name: "Tubthumping", id: "210414499", category: "Music", tags: ["rock", "anthem"] },
   { name: "Intergalactic — Beastie Boys", id: "131603357", category: "Music", tags: ["hip hop", "rap"] },
   { name: "Mainstreet — Bob Seger", id: "477304028", category: "Music", tags: ["rock"] },
   { name: "Trumpets — Jason Derulo", id: "146237847", category: "Music", tags: ["pop", "hype"] },
