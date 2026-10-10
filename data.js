@@ -1,0 +1,183 @@
+/* Blox ID Vault — data
+ * Animation IDs are the default/locomotion animation assets shipped by Roblox
+ * and the catalog emotes published by Roblox. Sound IDs are public audio asset
+ * IDs from the Roblox library.
+ *
+ * NOTE: Roblox audio privacy changed in 2022 — some user-uploaded sounds can be
+ * made private or moderated later. Treat every sound ID as a candidate to test
+ * in-game. Animation IDs for default characters are stable.
+ */
+
+const ANIMATIONS = [
+  // ---- Locomotion: R15 default ----
+  { name: "Idle (1)", id: "507766388", category: "R15 Locomotion", tags: ["idle", "stand", "default", "r15"] },
+  { name: "Idle (2)", id: "507766666", category: "R15 Locomotion", tags: ["idle", "stand", "default", "r15"] },
+  { name: "Idle (3)", id: "507766951", category: "R15 Locomotion", tags: ["idle", "stand", "default", "r15"] },
+  { name: "Walk", id: "507777826", category: "R15 Locomotion", tags: ["walk", "default", "r15"] },
+  { name: "Run", id: "507767714", category: "R15 Locomotion", tags: ["run", "sprint", "default", "r15"] },
+  { name: "Jump", id: "507765000", category: "R15 Locomotion", tags: ["jump", "default", "r15"] },
+  { name: "Fall", id: "507767968", category: "R15 Locomotion", tags: ["fall", "freefall", "default", "r15"] },
+  { name: "Climb", id: "507765644", category: "R15 Locomotion", tags: ["climb", "default", "r15"] },
+  { name: "Swim", id: "507784897", category: "R15 Locomotion", tags: ["swim", "default", "r15"] },
+  { name: "Swim (Idle)", id: "507785072", category: "R15 Locomotion", tags: ["swim", "idle", "default", "r15"] },
+  { name: "Sit", id: "507768133", category: "R15 Locomotion", tags: ["sit", "seat", "default", "r15"] },
+  { name: "Tool (Hold)", id: "507768375", category: "R15 Locomotion", tags: ["tool", "toolnone", "default", "r15"] },
+  { name: "Tool (Slash)", id: "522635514", category: "R15 Locomotion", tags: ["tool", "slash", "default", "r15"] },
+  { name: "Tool (Lunge)", id: "522638767", category: "R15 Locomotion", tags: ["tool", "lunge", "default", "r15"] },
+
+  // ---- Locomotion: R6 default ----
+  { name: "Idle (1)", id: "180435571", category: "R6 Locomotion", tags: ["idle", "stand", "default", "r6"] },
+  { name: "Idle (2)", id: "180435792", category: "R6 Locomotion", tags: ["idle", "stand", "default", "r6"] },
+  { name: "Walk", id: "180426354", category: "R6 Locomotion", tags: ["walk", "default", "r6"] },
+  { name: "Run", id: "180426354", category: "R6 Locomotion", tags: ["run", "default", "r6"] },
+  { name: "Jump", id: "125750702", category: "R6 Locomotion", tags: ["jump", "default", "r6"] },
+  { name: "Fall", id: "180436148", category: "R6 Locomotion", tags: ["fall", "default", "r6"] },
+  { name: "Climb", id: "180436334", category: "R6 Locomotion", tags: ["climb", "default", "r6"] },
+  { name: "Sit", id: "178130996", category: "R6 Locomotion", tags: ["sit", "seat", "default", "r6"] },
+  { name: "Tool (Hold)", id: "182393478", category: "R6 Locomotion", tags: ["tool", "toolnone", "default", "r6"] },
+  { name: "Tool (Slash)", id: "129967390", category: "R6 Locomotion", tags: ["tool", "slash", "default", "r6"] },
+  { name: "Tool (Lunge)", id: "129967478", category: "R6 Locomotion", tags: ["tool", "lunge", "default", "r6"] },
+
+  // ---- Locomotion: R15 migrated (2023 "R6 style" animations that work on R15) ----
+  { name: "Idle (1)", id: "12521158637", category: "R15 Migrated", tags: ["idle", "migrated", "r6 style", "r15"] },
+  { name: "Idle (2)", id: "12521162526", category: "R15 Migrated", tags: ["idle", "migrated", "r6 style", "r15"] },
+  { name: "Walk / Run", id: "12518152696", category: "R15 Migrated", tags: ["walk", "run", "migrated", "r15"] },
+  { name: "Jump", id: "12520880485", category: "R15 Migrated", tags: ["jump", "migrated", "r15"] },
+  { name: "Fall", id: "12520972571", category: "R15 Migrated", tags: ["fall", "migrated", "r15"] },
+  { name: "Climb", id: "12520982150", category: "R15 Migrated", tags: ["climb", "migrated", "r15"] },
+  { name: "Sit", id: "12520993168", category: "R15 Migrated", tags: ["sit", "migrated", "r15"] },
+  { name: "Wave", id: "12521004586", category: "R15 Migrated", tags: ["wave", "emote", "migrated", "r15"] },
+  { name: "Point", id: "12521007694", category: "R15 Migrated", tags: ["point", "emote", "migrated", "r15"] },
+  { name: "Dance", id: "12521009666", category: "R15 Migrated", tags: ["dance", "emote", "migrated", "r15"] },
+  { name: "Dance 2", id: "12521169800", category: "R15 Migrated", tags: ["dance", "emote", "migrated", "r15"] },
+  { name: "Dance 3", id: "12521178362", category: "R15 Migrated", tags: ["dance", "emote", "migrated", "r15"] },
+  { name: "Laugh", id: "12521018724", category: "R15 Migrated", tags: ["laugh", "emote", "migrated", "r15"] },
+  { name: "Cheer", id: "12521021991", category: "R15 Migrated", tags: ["cheer", "emote", "migrated", "r15"] },
+
+  // ---- Default emotes (R15) ----
+  { name: "Wave", id: "507770239", category: "Default Emotes", tags: ["emote", "wave", "/e wave"] },
+  { name: "Point", id: "507770453", category: "Default Emotes", tags: ["emote", "point", "/e point"] },
+  { name: "Laugh", id: "507770818", category: "Default Emotes", tags: ["emote", "laugh", "/e laugh"] },
+  { name: "Cheer", id: "507770677", category: "Default Emotes", tags: ["emote", "cheer", "/e cheer"] },
+  { name: "Dance", id: "507771019", category: "Default Emotes", tags: ["emote", "dance", "/e dance"] },
+  { name: "Dance 2", id: "507776043", category: "Default Emotes", tags: ["emote", "dance", "/e dance2"] },
+  { name: "Dance 3", id: "507777268", category: "Default Emotes", tags: ["emote", "dance", "/e dance3"] },
+
+  // ---- Default emotes (R6) ----
+  { name: "Wave (R6)", id: "128777973", category: "Default Emotes (R6)", tags: ["emote", "wave", "r6"] },
+  { name: "Point (R6)", id: "128853357", category: "Default Emotes (R6)", tags: ["emote", "point", "r6"] },
+  { name: "Laugh (R6)", id: "129423131", category: "Default Emotes (R6)", tags: ["emote", "laugh", "r6"] },
+  { name: "Cheer (R6)", id: "129423030", category: "Default Emotes (R6)", tags: ["emote", "cheer", "r6"] },
+  { name: "Dance (R6)", id: "182435998", category: "Default Emotes (R6)", tags: ["emote", "dance", "r6"] },
+  { name: "Dance 2 (R6)", id: "182436842", category: "Default Emotes (R6)", tags: ["emote", "dance", "r6"] },
+  { name: "Dance 3 (R6)", id: "182436935", category: "Default Emotes (R6)", tags: ["emote", "dance", "r6"] },
+
+  // ---- Popular catalog emotes ----
+  { name: "Hello", id: "3344650532", category: "Catalog Emotes", tags: ["emote", "hello", "greeting"] },
+  { name: "Applaud", id: "5915693819", category: "Catalog Emotes", tags: ["emote", "clap", "applause"] },
+  { name: "Shrug", id: "3334392772", category: "Catalog Emotes", tags: ["emote", "shrug", "idk"] },
+  { name: "Salute", id: "3360689775", category: "Catalog Emotes", tags: ["emote", "salute"] },
+  { name: "Tilt", id: "3360692915", category: "Catalog Emotes", tags: ["emote", "tilt"] },
+  { name: "Stadium", id: "3338055167", category: "Catalog Emotes", tags: ["emote", "stadium", "crowd"] },
+  { name: "Point (Catalog)", id: "3344585679", category: "Catalog Emotes", tags: ["emote", "point"] },
+  { name: "Floss", id: "5915779043", category: "Catalog Emotes", tags: ["emote", "dance", "floss"] },
+  { name: "Dab", id: "4212499637", category: "Catalog Emotes", tags: ["emote", "dance", "dab"] },
+  { name: "Hype Dance", id: "3695333486", category: "Catalog Emotes", tags: ["emote", "dance", "hype"] },
+  { name: "Monkey", id: "3333499508", category: "Catalog Emotes", tags: ["emote", "dance", "monkey"] },
+  { name: "Robot", id: "3338025566", category: "Catalog Emotes", tags: ["emote", "dance", "robot"] },
+  { name: "Zombie", id: "4210116953", category: "Catalog Emotes", tags: ["emote", "dance", "zombie"] },
+  { name: "Twirl", id: "3334968680", category: "Catalog Emotes", tags: ["emote", "twirl", "spin"] },
+  { name: "Dizzy", id: "3361426436", category: "Catalog Emotes", tags: ["emote", "dizzy"] },
+  { name: "Confused", id: "4940561610", category: "Catalog Emotes", tags: ["emote", "confused"] },
+  { name: "Bored", id: "5230599789", category: "Catalog Emotes", tags: ["emote", "bored"] },
+  { name: "Cower", id: "4940563117", category: "Catalog Emotes", tags: ["emote", "cower", "scared"] },
+  { name: "Haha", id: "3337966527", category: "Catalog Emotes", tags: ["emote", "laugh", "haha"] },
+  { name: "Celebrate", id: "3338097973", category: "Catalog Emotes", tags: ["emote", "celebrate"] },
+  { name: "Side to Side", id: "3333136415", category: "Catalog Emotes", tags: ["emote", "dance"] },
+  { name: "Fashionable", id: "3333331310", category: "Catalog Emotes", tags: ["emote", "pose", "fashion"] },
+  { name: "Line Dance", id: "4049037604", category: "Catalog Emotes", tags: ["emote", "dance"] },
+  { name: "Break Dance", id: "5915648917", category: "Catalog Emotes", tags: ["emote", "dance", "breakdance"] },
+  { name: "Samba", id: "6869766175", category: "Catalog Emotes", tags: ["emote", "dance", "samba"] },
+  { name: "Cha-Cha", id: "6862001787", category: "Catalog Emotes", tags: ["emote", "dance"] },
+  { name: "Dolphin Dance", id: "5918726674", category: "Catalog Emotes", tags: ["emote", "dance"] },
+  { name: "Sleep", id: "4686925579", category: "Catalog Emotes", tags: ["emote", "sleep"] },
+  { name: "Shy", id: "3337978742", category: "Catalog Emotes", tags: ["emote", "shy"] },
+  { name: "Godlike", id: "3337994105", category: "Catalog Emotes", tags: ["emote", "pose", "godlike"] },
+  { name: "Old Town Road Dance", id: "5937560570", category: "Catalog Emotes", tags: ["emote", "dance", "lil nas x"] },
+  { name: "Swan Dance", id: "7465997989", category: "Catalog Emotes", tags: ["emote", "dance", "ballet"] },
+];
+
+const SOUNDS = [
+  // ---- Music ----
+  { name: "Crab Rave — Noisestorm", id: "5410086218", category: "Music", tags: ["crab rave", "party", "meme"] },
+  { name: "Raining Tacos — Parry Gripp", id: "142376088", category: "Music", tags: ["meme", "classic"] },
+  { name: "Happy Song", id: "1843404009", category: "Music", tags: ["happy", "lobby", "upbeat"] },
+  { name: "Diamonds", id: "1846575559", category: "Music", tags: ["upbeat", "fashion"] },
+  { name: "Stadium Rave", id: "1846368080", category: "Music", tags: ["party", "hype", "electronic"] },
+  { name: "Phonk't Out (Phonk Vol. I)", id: "14145625743", category: "Music", tags: ["phonk", "drift", "montage"] },
+  { name: "Speed Metal Overture", id: "9042370693", category: "Music", tags: ["rock", "racing", "intense"] },
+  { name: "Gangnam Style — PSY", id: "130844430", category: "Music", tags: ["dance", "meme", "kpop"] },
+  { name: "Thunderstruck — AC/DC", id: "146961487", category: "Music", tags: ["rock"] },
+  { name: "Highway to Hell — AC/DC", id: "4728058875", category: "Music", tags: ["rock"] },
+  { name: "Take On Me — a-ha", id: "4606705490", category: "Music", tags: ["80s", "pop"] },
+  { name: "In The End — Linkin Park", id: "3018974408", category: "Music", tags: ["rock", "nu metal"] },
+  { name: "Smells Like Teen Spirit — Nirvana", id: "3495593580", category: "Music", tags: ["rock", "grunge"] },
+  { name: "Never Gonna Give You Up — Rick Astley", id: "4581203569", category: "Music", tags: ["rickroll", "meme", "80s"] },
+
+  // ---- Classical ----
+  { name: "Morning Mood (Peer Gynt)", id: "1846088038", category: "Classical", tags: ["calm", "morning"] },
+  { name: "Nocturne in E-Flat — Chopin", id: "9045765634", category: "Classical", tags: ["piano", "calm"] },
+  { name: "Gymnopédie No. 1", id: "9045766377", category: "Classical", tags: ["piano", "calm"] },
+  { name: "Clair de Lune", id: "1838457617", category: "Classical", tags: ["piano", "calm"] },
+  { name: "Toccata & Fugue in D Minor — Bach", id: "564238335", category: "Classical", tags: ["organ", "spooky"] },
+  { name: "Für Elise — Beethoven", id: "450051032", category: "Classical", tags: ["piano"] },
+  { name: "Moonlight Sonata — Beethoven", id: "445023353", category: "Classical", tags: ["piano"] },
+
+  // ---- Ambient / Chill ----
+  { name: "Elevator Music", id: "9119119619", category: "Ambient / Chill", tags: ["lobby", "chill", "comedy"] },
+  { name: "Chill Jazz", id: "926493242", category: "Ambient / Chill", tags: ["jazz", "cafe", "roleplay"] },
+  { name: "Relaxed Scene", id: "1848354536", category: "Ambient / Chill", tags: ["background", "tycoon"] },
+  { name: "Time To Relax", id: "9044702906", category: "Ambient / Chill", tags: ["cafe", "idle", "chill"] },
+  { name: "Rain Ambience", id: "1843670378", category: "Ambient / Chill", tags: ["rain", "weather", "loop"] },
+  { name: "Fire Crackling", id: "1851463645", category: "Ambient / Chill", tags: ["fire", "campfire", "loop"] },
+  { name: "Wind", id: "2662419014", category: "Ambient / Chill", tags: ["wind", "weather", "loop"] },
+  { name: "Door Creak", id: "4842621355", category: "Ambient / Chill", tags: ["horror", "door", "sfx"] },
+
+  // ---- Meme / Funny ----
+  { name: "Vine Boom", id: "5153845975", category: "Meme / Funny", tags: ["vine", "boom", "meme"] },
+  { name: "Bruh Sound Effect", id: "5153845942", category: "Meme / Funny", tags: ["bruh", "meme"] },
+  { name: "Metal Pipe Falling", id: "6042077897", category: "Meme / Funny", tags: ["meme", "clang"] },
+  { name: "Epic Sax Guy", id: "130775431", category: "Meme / Funny", tags: ["sax", "meme", "eurovision"] },
+  { name: "Among Us Drip", id: "6486359635", category: "Meme / Funny", tags: ["among us", "drip", "meme"] },
+  { name: "Mii Channel Music", id: "143666548", category: "Meme / Funny", tags: ["nintendo", "mii", "meme"] },
+  { name: "Baby Shark", id: "614018503", category: "Meme / Funny", tags: ["meme", "kids"] },
+  { name: "Spooky Scary Skeletons", id: "138081566", category: "Meme / Funny", tags: ["halloween", "spooky", "meme"] },
+  { name: "Hee Hee (Michael Jackson)", id: "3048623108", category: "Meme / Funny", tags: ["meme", "hee hee"] },
+  { name: "LEEDLE LEEDLE LEEDLE LEE (SpongeBob)", id: "130842019", category: "Meme / Funny", tags: ["spongebob", "meme"] },
+  { name: "Sad Violin", id: "135308045", category: "Meme / Funny", tags: ["sad", "meme"] },
+  { name: "THIS IS SPARTA", id: "130781067", category: "Meme / Funny", tags: ["300", "meme", "yell"] },
+  { name: "I'm in My Mom's Car", id: "170041353", category: "Meme / Funny", tags: ["vine", "meme", "car"] },
+  { name: "FBI Open Up", id: "2276169441", category: "Meme / Funny", tags: ["meme", "fbi"] },
+  { name: "Windows XP (DJ Titon)", id: "1626996526", category: "Meme / Funny", tags: ["windows", "meme"] },
+  { name: "Pokérap", id: "152381839", category: "Meme / Funny", tags: ["pokemon", "meme"] },
+  { name: "I'm Batman", id: "130769318", category: "Meme / Funny", tags: ["batman", "movie"] },
+
+  // ---- Sound Effects ----
+  { name: "Oof (Classic)", id: "131961136", category: "Sound Effects", tags: ["oof", "death", "roblox"] },
+  { name: "Roblox Oof Sound", id: "3060494212", category: "Sound Effects", tags: ["oof", "death", "roblox"] },
+  { name: "Airhorn", id: "131072554", category: "Sound Effects", tags: ["airhorn", "horn"] },
+  { name: "MLG Airhorn", id: "4565899976", category: "Sound Effects", tags: ["mlg", "airhorn", "meme"] },
+  { name: "Sad Trombone", id: "141679876", category: "Sound Effects", tags: ["fail", "sad", "womp"] },
+  { name: "Windows XP Error", id: "138167455", category: "Sound Effects", tags: ["error", "windows"] },
+  { name: "Godzilla Roar", id: "130783046", category: "Sound Effects", tags: ["roar", "monster"] },
+  { name: "Bonk!", id: "130944130", category: "Sound Effects", tags: ["bonk", "hit"] },
+  { name: "Explosion", id: "130113415", category: "Sound Effects", tags: ["boom", "explosion", "combat"] },
+  { name: "Gunshot", id: "131070686", category: "Sound Effects", tags: ["gun", "combat", "shooter"] },
+  { name: "Footsteps", id: "536756532", category: "Sound Effects", tags: ["footsteps", "walk"] },
+  { name: "Jump Sound", id: "131513516", category: "Sound Effects", tags: ["jump", "platformer"] },
+
+  // ---- UI / Game ----
+  { name: "Coin Collect", id: "4697536610", category: "UI / Game", tags: ["coin", "reward", "pickup"] },
+  { name: "Level Up", id: "1837694600", category: "UI / Game", tags: ["level up", "reward", "achievement"] },
+  { name: "Default Click", id: "72046313", category: "UI / Game", tags: ["click", "button", "ui"] },
+];
