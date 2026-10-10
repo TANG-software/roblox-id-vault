@@ -48,6 +48,36 @@ you create it as a **Static Site**, not a Web Service.
 > Do **not** deploy it as a Web Service — a Web Service expects a long-running process
 > (`npm start`, etc.) and this project has none.
 
+### Deploy via the Render CLI (optional)
+
+Install the Render CLI, then create the static site in one command:
+
+```bash
+render services create \
+  --name blox-id-vault \
+  --type static_site \
+  --repo https://github.com/TANG-software/roblox-id-vault \
+  --branch main \
+  --build-command "echo static" \
+  --publish-directory .
+```
+
+Then redeploy any time with:
+
+```bash
+render deploys create <SERVICE_ID>          # interactive picker if you omit the ID
+render deploys create <SERVICE_ID> --wait   # block until the deploy finishes
+```
+
+In day-to-day use you won't need any command at all: Render auto-deploys on every
+push to the linked branch.
+
+### Deploy via Blueprint (one click)
+
+This repo includes a `render.yaml`, so you can use **New + → Blueprint** and point it
+at the repo. Render reads the config (static runtime, publish directory `.`) and creates
+the site for you.
+
 ### Also works on
 
 - **GitHub Pages:** Settings → Pages → Deploy from branch → `main` / root.
