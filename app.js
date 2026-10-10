@@ -1,179 +1,205 @@
-/* Blox ID Vault — front-end logic */
+/* Blox ID Vault — front-end
+ * Two independent library sections (animations, sounds) built from one reusable
+ * component, plus an ID extractor and shared favourites.
+ */
 (function () {
   "use strict";
 
-  var FAV_KEY = "rbxid_favourites";
-
-  var state = {
-    tab: "animations",
-    query: "",
-    category: "All",
-    favOnly: false,
-  };
-
+  var FAV_KEY = "rbxidvault:favourites";
   var favourites = loadFavourites();
 
-  // ---------- helpers ----------
-  function $(sel) { return document.querySelector(sel); }
+  // ---------- tiny helpers ----------
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
-
   function loadFavourites() {
-    try {
-      var raw = localStorage.getItem(FAV_KEY);
-      var arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    } catch (e) { return []; }
+    try { var r = localStorage.getItem(FAV_KEY); var a = r ? JSON.parse(r) : []; return Array.isArray(a) ? a : []; }
+    catch (e) { return []; }
   }
-
-  function saveFavourites() {
-    try { localStorage.setItem(FAV_KEY, JSON.stringify(favourites)); } catch (e) {}
-  }
-
+  function saveFavourites() { try { localStorage.setItem(FAV_KEY, JSON.stringify(favourites)); } catch (e) {} }
   function isFav(key) { return favourites.indexOf(key) !== -1; }
-
   function toggleFav(key) {
     var i = favourites.indexOf(key);
     if (i === -1) favourites.push(key); else favourites.splice(i, 1);
     saveFavourites();
   }
 
-  function currentData() {
-    return state.tab === "animations" ? ANIMATIONS : SOUNDS;
-  }
-
-  function itemKey(item) { return state.tab + ":" + item.id + ":" + item.name; }
-
-  function categories(data) {
-    var seen = {};
-    var out = [];
-    data.forEach(function (d) {
-      if (!seen[d.category]) { seen[d.category] = true; out.push(d.category); }
-    });
-    return out;
-  }
-
-  function matches(item, q) {
-    if (!q) return true;
-    var hay = (item.name + " " + item.id + " " + item.category + " " + (item.tags || []).join(" ")).toLowerCase();
-    return hay.indexOf(q) !== -1;
-  }
-
   // ---------- toast ----------
   var toastTimer = null;
   function toast(msg) {
     var el = $("#toast");
-    el.textContent = msg;
-    el.hidden = false;
+    el.textContent = msg; el.hidden = false;
     requestAnimationFrame(function () { el.classList.add("show"); });
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () {
       el.classList.remove("show");
-      setTimeout(function () { el.hidden = true; }, 220);
-    }, 1600);
+      setTimeout(function () { el.hidden = true; }, 230);
+    }, 1500);
   }
 
   // ---------- clipboard ----------
-  function copyId(id, label) {
-    var text = String(id);
-    function done() { toast("Copied " + (label ? label + " — " : "") + text); }
+  function copyText(text, label) {
+    function done() { toast("copied " + (label ? label + " → " : "") + text); }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text); done(); });
-    } else {
-      fallbackCopy(text); done();
-    }
+      navigator.clipboard.writeText(String(text)).then(done, function () { fallback(text); done(); });
+    } else { fallback(text); done(); }
   }
-
-  function fallbackCopy(text) {
+  function fallback(text) {
     var ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "fixed";
-    ta.style.top = "-1000px";
-    document.body.appendChild(ta);
-    ta.select();
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.top = "-1000px";
+    document.body.appendChild(ta); ta.select();
     try { document.execCommand("copy"); } catch (e) {}
     document.body.removeChild(ta);
   }
 
-  // ---------- rendering ----------
-  function renderChips() {
-    var data = currentData();
-    var cats = ["All"].concat(categories(data));
-    var html = cats.map(function (c) {
-      var active = c === state.category ? " active" : "";
-      return '<button class="chip' + active + '" data-cat="' + esc(c) + '">' + esc(c) + "</button>";
-    }).join("");
-    $("#chips").innerHTML = html;
-  }
+  // ---------- reusable library component ----------
+  function createLibrary(name, data) {
+    var root = document.getElementById(name);
+    var lib = {
+      name: name,
+      data: data,
+      query: "",
+      category: "All",
+      favOnly: false,
+      sort: "featured",
+      el: {
+        search: $('[data-lib-search="' + name + '"]', root),
+        sort: $('[data-lib-sort="' + name + '"]', root),
+        chips: $('[data-lib-chips="' + name + '"]', root),
+        results: $('[data-lib-results="' + name + '"]', root),
+        empty: $('[data-lib-empty="' + name + '"]', root),
+        favBtn: $('[data-lib-fav="' + name + '"]', root),
+        count: $('[data-lib-count="' + name + '"]', root)
+      }
+    };
 
-  function renderResults() {
-    var data = currentData();
-    var q = state.query.trim().toLowerCase();
-    var rows = data.filter(function (item) {
-      if (state.category !== "All" && item.category !== state.category) return false;
-      if (state.favOnly && !isFav(itemKey(item))) return false;
-      return matches(item, q);
+    function key(item) { return name + ":" + item.id + ":" + item.name; }
+
+    function categories() {
+      var seen = {}, out = [];
+      data.forEach(function (d) { if (!seen[d.category]) { seen[d.category] = true; out.push(d.category); } });
+      return out;
+    }
+
+    function matches(item, q) {
+      if (!q) return true;
+      var hay = (item.name + " " + item.id + " " + item.category + " " + (item.tags || []).join(" ")).toLowerCase();
+      return hay.indexOf(q) !== -1;
+    }
+
+    function sorted(rows) {
+      var arr = rows.slice();
+      switch (lib.sort) {
+        case "name": arr.sort(function (a, b) { return a.name.localeCompare(b.name); }); break;
+        case "id-asc": arr.sort(function (a, b) { return Number(a.id) - Number(b.id); }); break;
+        case "id-desc": arr.sort(function (a, b) { return Number(b.id) - Number(a.id); }); break;
+        case "category": arr.sort(function (a, b) { return a.category.localeCompare(b.category) || a.name.localeCompare(b.name); }); break;
+        default: break;
+      }
+      return arr;
+    }
+
+    function renderChips() {
+      var cats = ["All"].concat(categories());
+      lib.el.chips.innerHTML = cats.map(function (c) {
+        return '<button class="chip' + (c === lib.category ? " active" : "") + '" data-cat="' + esc(c) + '">' + esc(c) + "</button>";
+      }).join("");
+    }
+
+    function render() {
+      var q = lib.query.trim().toLowerCase();
+      var rows = data.filter(function (item) {
+        if (lib.category !== "All" && item.category !== lib.category) return false;
+        if (lib.favOnly && !isFav(key(item))) return false;
+        return matches(item, q);
+      });
+      rows = sorted(rows);
+
+      lib.el.count.textContent = rows.length + (rows.length === 1 ? " ID" : " IDs");
+
+      if (!rows.length) {
+        lib.el.results.innerHTML = "";
+        lib.el.empty.hidden = false;
+        lib.el.empty.textContent = lib.favOnly
+          ? "No favourites here yet — tap the ★ on a card to save it."
+          : "No matches. Try another word, or clear the filters.";
+        return;
+      }
+      lib.el.empty.hidden = true;
+
+      lib.el.results.innerHTML = rows.map(function (item) {
+        var k = key(item);
+        var tags = (item.tags || []).slice(0, 4).map(function (t) { return '<span class="tag">' + esc(t) + "</span>"; }).join("");
+        var lib_url = "https://www.roblox.com/library/" + item.id;
+        var store_url = "https://create.roblox.com/store/asset/" + item.id;
+        return (
+          '<article class="card">' +
+            '<div class="card-top">' +
+              '<div>' +
+                '<div class="card-name">' + esc(item.name) + "</div>" +
+                '<div class="card-cat">' + esc(item.category) + "</div>" +
+              "</div>" +
+              '<button class="fav-btn' + (isFav(k) ? " on" : "") + '" data-fav="' + esc(k) + '" title="Favourite" aria-label="Favourite">\u2605</button>' +
+            "</div>" +
+            '<div class="id-row">' +
+              '<button class="id-pill" data-copy="' + esc(item.id) + '" data-label="' + esc(item.name) + '" title="Click to copy">' + esc(item.id) + "</button>" +
+              '<button class="copy-btn" data-copy="' + esc(item.id) + '" data-label="' + esc(item.name) + '">Copy</button>' +
+            "</div>" +
+            (tags ? '<div class="card-tags">' + tags + "</div>" : "") +
+            '<div class="card-links">' +
+              '<a href="' + store_url + '" target="_blank" rel="noopener">Creator Store ↗</a>' +
+              '<a href="' + lib_url + '" target="_blank" rel="noopener">Library ↗</a>' +
+            "</div>" +
+          "</article>"
+        );
+      }).join("");
+    }
+
+    // events scoped to this library
+    lib.el.search.addEventListener("input", function (e) { lib.query = e.target.value; render(); });
+    lib.el.sort.addEventListener("change", function (e) { lib.sort = e.target.value; render(); });
+    lib.el.favBtn.addEventListener("click", function () {
+      lib.favOnly = !lib.favOnly;
+      lib.el.favBtn.classList.toggle("active", lib.favOnly);
+      render();
+    });
+    lib.el.chips.addEventListener("click", function (e) {
+      var chip = e.target.closest(".chip");
+      if (!chip) return;
+      lib.category = chip.getAttribute("data-cat");
+      renderChips(); render();
+    });
+    lib.el.results.addEventListener("click", function (e) {
+      var copyEl = e.target.closest("[data-copy]");
+      if (copyEl) {
+        copyText(copyEl.getAttribute("data-copy"), copyEl.getAttribute("data-label"));
+        if (copyEl.classList.contains("copy-btn")) {
+          copyEl.classList.add("done");
+          setTimeout(function () { copyEl.classList.remove("done"); }, 1200);
+        }
+        return;
+      }
+      var favEl = e.target.closest("[data-fav]");
+      if (favEl) {
+        var k = favEl.getAttribute("data-fav");
+        toggleFav(k);
+        favEl.classList.toggle("on", isFav(k));
+        if (lib.favOnly) render();
+      }
     });
 
-    var results = $("#results");
-    var empty = $("#empty");
-
-    if (!rows.length) {
-      results.innerHTML = "";
-      empty.hidden = false;
-      return;
-    }
-    empty.hidden = true;
-
-    results.innerHTML = rows.map(function (item) {
-      var key = itemKey(item);
-      var fav = isFav(key) ? " on" : "";
-      var tags = (item.tags || []).slice(0, 4).map(function (t) {
-        return '<span class="tag">' + esc(t) + "</span>";
-      }).join("");
-      var lib = "https://www.roblox.com/library/" + item.id;
-      var store = "https://create.roblox.com/store/asset/" + item.id;
-      return (
-        '<article class="card">' +
-          '<div class="card-top">' +
-            '<div>' +
-              '<div class="card-name">' + esc(item.name) + "</div>" +
-              '<div class="card-cat">' + esc(item.category) + "</div>" +
-            "</div>" +
-            '<button class="fav-btn' + fav + '" data-fav="' + esc(key) + '" title="Favourite" aria-label="Favourite">\u2605</button>' +
-          "</div>" +
-          '<div class="id-row">' +
-            '<button class="id-pill" data-copy="' + esc(item.id) + '" data-label="' + esc(item.name) + '" title="Click to copy">' + esc(item.id) + "</button>" +
-            '<button class="copy-btn" data-copy="' + esc(item.id) + '" data-label="' + esc(item.name) + '">Copy</button>' +
-          "</div>" +
-          (tags ? '<div class="card-tags">' + tags + "</div>" : "") +
-          '<div class="card-links">' +
-            '<a href="' + lib + '" target="_blank" rel="noopener">Library</a>' +
-            '<a href="' + store + '" target="_blank" rel="noopener">Creator Store</a>' +
-          "</div>" +
-        "</article>"
-      );
-    }).join("");
-  }
-
-  function renderCounts() {
-    $("#count-animations").textContent = "(" + ANIMATIONS.length + ")";
-    $("#count-sounds").textContent = "(" + SOUNDS.length + ")";
-  }
-
-  function renderAll() {
     renderChips();
-    renderResults();
+    render();
+    return lib;
   }
 
   // ---------- extractor ----------
   function extractId(raw) {
     if (!raw) return null;
-    // grab the longest run of digits (asset IDs are long; avoids grabbing random numbers)
     var runs = String(raw).match(/\d{3,}/g);
     if (!runs) return null;
     var best = runs[0];
@@ -182,129 +208,90 @@
   }
 
   function guessType(id) {
-    // heuristics only — IDs are not self-describing
-    var animIds = {};
-    ANIMATIONS.forEach(function (a) { animIds[a.id] = a.name; });
-    var sndIds = {};
-    SOUNDS.forEach(function (s) { sndIds[s.id] = s.name; });
-    if (animIds[id]) return { type: "Animation", name: animIds[id] };
-    if (sndIds[id]) return { type: "Sound / audio", name: sndIds[id] };
-    var n = Number(id);
-    if (n >= 500000000) return { type: "Unknown (likely an audio or animation asset)", name: null };
-    return { type: "Unknown", name: null };
+    var a = ANIMATIONS.filter(function (x) { return x.id === id; })[0];
+    if (a) return { type: "Animation", name: a.name };
+    var s = SOUNDS.filter(function (x) { return x.id === id; })[0];
+    if (s) return { type: "Sound / audio", name: s.name };
+    return { type: "Not in the vault (asset ID)", name: null };
   }
 
   function runExtract() {
-    var raw = $("#extract-input").value;
     var out = $("#extract-out");
-    var id = extractId(raw);
+    var id = extractId($("#extract-input").value);
     if (!id) {
       out.hidden = false;
       out.innerHTML = '<p class="muted">No numeric ID found. Paste a Roblox link, an <code>rbxassetid://</code> string, or the number itself.</p>';
       return;
     }
-    var guess = guessType(id);
-    var lib = "https://www.roblox.com/library/" + id;
-    var store = "https://create.roblox.com/store/asset/" + id;
+    var g = guessType(id);
     out.hidden = false;
     out.innerHTML =
-      '<div class="muted small">Detected asset ID</div>' +
+      '<div class="muted small" style="font-family:var(--mono)">detected asset id</div>' +
       '<div class="big-id">' + esc(id) + "</div>" +
-      '<div class="muted small">Likely type: <strong>' + esc(guess.type) + "</strong>" +
-        (guess.name ? " — matches <strong>" + esc(guess.name) + "</strong> in the vault" : "") + "</div>" +
-      '<div class="extract-actions" style="margin-top:14px">' +
+      '<div class="muted small">Likely type: <strong>' + esc(g.type) + "</strong>" +
+        (g.name ? " — matches <strong>" + esc(g.name) + "</strong> in the vault" : "") + "</div>" +
+      '<div class="extract-actions">' +
         '<button class="btn btn-primary" data-copy="' + esc(id) + '" data-label="asset">Copy ID</button>' +
-        '<button class="btn btn-ghost" id="search-this">Search this ID in the vault</button>' +
-        '<a class="btn btn-ghost" href="' + store + '" target="_blank" rel="noopener">Creator Store</a>' +
-        '<a class="btn btn-ghost" href="' + lib + '" target="_blank" rel="noopener">Library</a>' +
+        '<button class="btn btn-ghost" id="search-this">Search in vault</button>' +
+        '<a class="btn btn-ghost" href="https://create.roblox.com/store/asset/' + id + '" target="_blank" rel="noopener">Creator Store ↗</a>' +
+        '<a class="btn btn-ghost" href="https://www.roblox.com/library/' + id + '" target="_blank" rel="noopener">Library ↗</a>' +
       "</div>";
   }
 
-  // ---------- events ----------
-  function bind() {
-    document.querySelectorAll(".tab").forEach(function (t) {
-      t.addEventListener("click", function () {
-        state.tab = t.getAttribute("data-tab");
-        state.category = "All";
-        document.querySelectorAll(".tab").forEach(function (x) { x.classList.remove("active"); });
-        t.classList.add("active");
-        renderAll();
+  // ---------- scrollspy ----------
+  function initScrollspy() {
+    var links = {};
+    $all(".header-nav a").forEach(function (a) { links[a.getAttribute("data-nav")] = a; });
+    var sections = $all("section[data-section], #extractor, #guide");
+    if (!("IntersectionObserver" in window)) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        Object.keys(links).forEach(function (k) { links[k].classList.toggle("active", k === id); });
       });
-    });
-
-    $("#search").addEventListener("input", function (e) {
-      state.query = e.target.value;
-      renderResults();
-    });
-
-    $("#fav-toggle").addEventListener("click", function () {
-      state.favOnly = !state.favOnly;
-      this.classList.toggle("active", state.favOnly);
-      renderResults();
-    });
-
-    // delegate clicks
-    document.addEventListener("click", function (e) {
-      var chip = e.target.closest(".chip");
-      if (chip) {
-        state.category = chip.getAttribute("data-cat");
-        renderChips();
-        renderResults();
-        return;
-      }
-      var copyEl = e.target.closest("[data-copy]");
-      if (copyEl) {
-        copyId(copyEl.getAttribute("data-copy"), copyEl.getAttribute("data-label"));
-        if (copyEl.classList.contains("copy-btn")) {
-          copyEl.classList.add("done");
-          var btn = copyEl;
-          setTimeout(function () { btn.classList.remove("done"); }, 1200);
-        }
-        return;
-      }
-      var favEl = e.target.closest("[data-fav]");
-      if (favEl) {
-        var key = favEl.getAttribute("data-fav");
-        toggleFav(key);
-        favEl.classList.toggle("on", isFav(key));
-        if (state.favOnly) renderResults();
-        return;
-      }
-      if (e.target.id === "search-this") {
-        var id = extractId($("#extract-input").value);
-        if (id) {
-          state.tab = "animations";
-          state.category = "All";
-          state.query = id;
-          $("#search").value = id;
-          document.querySelectorAll(".tab").forEach(function (x) {
-            x.classList.toggle("active", x.getAttribute("data-tab") === "animations");
-          });
-          renderAll();
-          // also check sounds
-          var inAnim = ANIMATIONS.some(function (a) { return a.id === id; });
-          if (!inAnim) {
-            state.tab = "sounds";
-            document.querySelectorAll(".tab").forEach(function (x) {
-              x.classList.toggle("active", x.getAttribute("data-tab") === "sounds");
-            });
-            renderAll();
-          }
-          document.getElementById("library").scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    });
-
-    $("#extract-btn").addEventListener("click", runExtract);
-    $("#extract-input").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") runExtract();
-    });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach(function (s) { obs.observe(s); });
   }
 
   // ---------- init ----------
   document.addEventListener("DOMContentLoaded", function () {
-    renderCounts();
-    renderAll();
-    bind();
+    createLibrary("animations", ANIMATIONS);
+    createLibrary("sounds", SOUNDS);
+
+    $("#total-count").textContent = ANIMATIONS.length + SOUNDS.length;
+    $("#stat-anim").textContent = ANIMATIONS.length;
+    $("#stat-sound").textContent = SOUNDS.length;
+
+    $("#extract-btn").addEventListener("click", runExtract);
+    $("#extract-input").addEventListener("keydown", function (e) { if (e.key === "Enter") runExtract(); });
+
+    // delegated copy for extractor output
+    $("#extract-out").addEventListener("click", function (e) {
+      var copyEl = e.target.closest("[data-copy]");
+      if (copyEl) { copyText(copyEl.getAttribute("data-copy"), copyEl.getAttribute("data-label")); return; }
+      if (e.target.id === "search-this") {
+        var id = extractId($("#extract-input").value);
+        if (!id) return;
+        var target = ANIMATIONS.some(function (x) { return x.id === id; }) ? "animations" : "sounds";
+        var sec = document.getElementById(target);
+        var input = $('[data-lib-search="' + target + '"]', sec);
+        input.value = id;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        sec.scrollIntoView({ behavior: "smooth" });
+        input.focus();
+      }
+    });
+
+    // "/" focuses the nearest library search
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "/" || /input|textarea|select/i.test(document.activeElement.tagName)) return;
+      e.preventDefault();
+      var sec = document.getElementById("animations");
+      var first = $('[data-lib-search="animations"]', sec);
+      first.focus(); first.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    initScrollspy();
   });
 })();
