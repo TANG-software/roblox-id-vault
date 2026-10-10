@@ -271,6 +271,13 @@ pre code { background: none; border: none; padding: 0; color: #c9cffb; font-size
 .footer-note p { margin: 3px 0; }
 .site-footer p { margin: 4px 0; }
 
+/* ===== Ads ===== */
+.ad-section { padding: 30px 0 10px; }
+.ad-label { display: block; font-family: var(--mono); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+.ad-section .wrap > div[id^="container-"] { min-height: 90px; }
+a.sponsored { color: var(--faint); text-decoration: underline; }
+a.sponsored:hover { color: var(--muted); }
+
 /* ===== Toast ===== */
 .toast {
   position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(12px);
