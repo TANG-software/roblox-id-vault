@@ -1,0 +1,12 @@
+# Render Blueprint — deploys this repo as a free Static Site.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Note: static sites use `type: web` with `runtime: static` in Blueprints —
+# there is no separate `type: static`.
+services:
+  - type: web
+    runtime: static
+    name: blox-id-vault
+    buildCommand: echo "static site - no build step required"
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: true
