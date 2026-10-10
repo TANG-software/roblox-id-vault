@@ -1,71 +1,82 @@
 # Blox ID Vault
 
-A tiny, dependency-free website that helps Roblox players and developers **find, copy and use
-animation IDs and sound (audio) IDs**.
+A premium, technical reference site for **Roblox animation IDs** and **sound (audio) IDs**.
+Static, dependency-free, and ready to deploy on Render (or GitHub Pages / Netlify / Cloudflare Pages).
 
-- 🔎 Search the whole library by name, ID or tag
-- 📋 One-click copy on every ID
-- ⭐ Save favourites locally (no account, no backend)
-- 🔗 **ID Extractor** — paste any Roblox link / `rbxassetid://` string and pull the ID out
-- 📚 Includes default character animations (R15 + R6), the 2023 "R15 migrated" set, default
-  emotes, popular catalog emotes, and a curated set of music, meme and sound-effect audio IDs
-- 🌙 Dark, responsive, mobile-friendly
-- 🚫 No build step, no frameworks, no tracking
+## What it does
 
-## What's inside
+The site is organised into **two main sections**:
+
+1. **Animation IDs** — default character locomotion (R15, R6, and the 2023 R15-migrated set),
+   built-in emotes, and popular catalog emotes.
+2. **Sound IDs** — audio asset IDs for music, memes, sound effects, ambient loops and UI.
+
+Each section has its own search, category filter chips, sort (featured / name / ID / category),
+a favourites filter, and a live count. Every ID has one-click copy.
+
+Also included:
+
+- **ID Extractor** — paste any Roblox link, `rbxassetid://` string, or raw number to pull out the ID.
+- **Guide** — copy-paste Luau snippets for animations and audio.
+- Favourites saved locally (no account, no backend, no tracking).
+- Press `/` anywhere to jump to search.
+
+## Files
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | The page |
+| `index.html` | Page structure (hero, two sections, extractor, guide) |
 | `styles.css` | Styling |
-| `app.js` | Search, filtering, copy, favourites, extractor |
-| `data.js` | The ID library (edit this to add your own) |
+| `app.js` | Reusable per-section library component, extractor, favourites |
+| `data.js` | The ID data — edit this to add your own IDs |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 
-## Deploy it
+## Deploy on Render
 
-### GitHub Pages (free, 2 minutes)
+This is a **fully static site** — no build step, no server, no environment variables. So on Render
+you create it as a **Static Site**, not a Web Service.
 
-1. Push this repo to GitHub (already done if you're reading this from the repo).
-2. Go to **Settings → Pages**.
-3. Under **Build and deployment → Source**, choose **Deploy from a branch**.
-4. Pick branch **`main`** and folder **`/ (root)`**, then **Save**.
-5. Wait ~1 minute. Your site is live at `https://<your-username>.github.io/<repo-name>/`.
+1. Render dashboard → **New +** → **Static Site**.
+2. Connect the **`roblox-id-vault`** GitHub repo.
+3. Settings:
+   - **Branch:** `main`
+   - **Build Command:** *leave empty* (there is nothing to build)
+   - **Publish Directory:** `.` (the repo root — that's where `index.html` lives)
+4. **Create Static Site**. Render serves it at `https://<name>.onrender.com`.
 
-### Netlify / Cloudflare Pages / Vercel
+> If Render insists on a build command, you can leave it blank or set it to `echo static`.
+> Do **not** deploy it as a Web Service — a Web Service expects a long-running process
+> (`npm start`, etc.) and this project has none.
 
-Because it's a static site, just connect the repo and set:
+### Also works on
 
-- **Build command:** *(leave empty)*
-- **Publish / output directory:** `/` (the repo root)
+- **GitHub Pages:** Settings → Pages → Deploy from branch → `main` / root.
+- **Netlify / Cloudflare Pages / Vercel:** empty build command, publish directory = repo root.
 
-### Run it locally
-
-Open `index.html` directly in a browser, or serve the folder:
+### Run locally
 
 ```bash
 python3 -m http.server 8080
-# then visit http://localhost:8080
+# visit http://localhost:8080
 ```
 
 ## Adding your own IDs
 
-Open `data.js` and add an entry to the `ANIMATIONS` or `SOUNDS` array:
+Open `data.js` and append to the `ANIMATIONS` or `SOUNDS` array:
 
 ```js
 { name: "My Dance", id: "1234567890", category: "Catalog Emotes", tags: ["dance", "custom"] },
 ```
 
-The category you use automatically becomes a filter chip. Save and refresh — that's it.
+Whatever `category` you use automatically becomes a filter chip in that section. Save and refresh.
 
-## A note on accuracy
+## Accuracy notes
 
-- **Animation IDs** for the default characters and the built-in/catalog emotes are stable and
-  come from Roblox's own default `Animate` script and Roblox creator documentation.
-- **Sound IDs** point at public audio assets. Since Roblox's **2022 audio privacy update**,
-  uploaded audio can be made private, removed, or blocked per-experience, so a valid ID may
-  still be silent in a specific game. Treat every sound ID as a candidate and test it in-game.
-  If one doesn't play, it's almost always a permissions/moderation issue, not a typo.
+- **Animation IDs** for the default characters and built-in/catalog emotes are stable and come from
+  Roblox's default `Animate` script and Roblox creator documentation.
+- **Sound IDs** point at public audio assets. Since Roblox's **2022 audio privacy update**, uploaded
+  audio can be made private, removed, or blocked per-experience, so a valid ID may still be silent in
+  a specific game. Treat every sound ID as a candidate and test it in-game.
 
 ## Disclaimer
 
