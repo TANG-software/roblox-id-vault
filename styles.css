@@ -139,6 +139,7 @@ code { font-family: var(--mono); font-size: .88em; background: rgba(139,92,255,.
 .section-icon svg { width: 24px; height: 24px; }
 .section-icon.anim { background: linear-gradient(135deg, rgba(139,92,255,.22), rgba(91,139,255,.12)); color: #b9a5ff; border-color: rgba(139,92,255,.35); }
 .section-icon.sound { background: linear-gradient(135deg, rgba(46,230,200,.2), rgba(91,139,255,.1)); color: #7ff0dd; border-color: rgba(46,230,200,.32); }
+.section-icon.jjs { background: linear-gradient(135deg, rgba(255,90,120,.2), rgba(139,92,255,.12)); color: #ff9db1; border-color: rgba(255,90,120,.34); }
 .section-icon.tool { background: linear-gradient(135deg, rgba(91,139,255,.2), rgba(139,92,255,.1)); color: #a9c3ff; border-color: rgba(91,139,255,.32); }
 .section-icon.book { background: linear-gradient(135deg, rgba(255,204,102,.16), rgba(255,255,255,.04)); color: #ffd98a; border-color: rgba(255,204,102,.28); }
 .section-title { flex: 1; }
