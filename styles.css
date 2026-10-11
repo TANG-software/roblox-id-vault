@@ -34,6 +34,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  padding-bottom: 72px; /* room for the sticky bottom ad strip */
 }
 
 /* ambient background */
@@ -277,10 +278,19 @@ pre code { background: none; border: none; padding: 0; color: #c9cffb; font-size
 .ad-section .wrap > div[id^="container-"] { min-height: 90px; }
 a.sponsored { color: var(--faint); text-decoration: underline; }
 a.sponsored:hover { color: var(--muted); }
+.ad-sticky-bottom {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+  display: flex; justify-content: center; align-items: center;
+  min-height: 62px; padding: 6px 10px;
+  background: rgba(7,8,16,.94);
+  border-top: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+}
+.ad-sticky-bottom iframe { max-width: 100%; }
 
 /* ===== Toast ===== */
 .toast {
-  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(12px);
+  position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%) translateY(12px);
   background: #05060f; border: 1px solid var(--good); color: var(--good);
   padding: 12px 20px; border-radius: 11px; font-weight: 600; font-size: .9rem;
   font-family: var(--mono); opacity: 0; transition: .22s ease; z-index: 60; pointer-events: none;
