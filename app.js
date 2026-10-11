@@ -210,6 +210,8 @@
   function guessType(id) {
     var a = ANIMATIONS.filter(function (x) { return x.id === id; })[0];
     if (a) return { type: "Animation", name: a.name };
+    var j = JJS.filter(function (x) { return x.id === id; })[0];
+    if (j) return { type: "Sound / audio (Jujutsu Shenanigans)", name: j.name };
     var s = SOUNDS.filter(function (x) { return x.id === id; })[0];
     if (s) return { type: "Sound / audio", name: s.name };
     return { type: "Not in the vault (asset ID)", name: null };
@@ -258,10 +260,14 @@
   document.addEventListener("DOMContentLoaded", function () {
     createLibrary("animations", ANIMATIONS);
     createLibrary("sounds", SOUNDS);
+    createLibrary("jjs", JJS);
 
-    $("#total-count").textContent = ANIMATIONS.length + SOUNDS.length;
+    var total = ANIMATIONS.length + SOUNDS.length + JJS.length;
+    $("#total-count").textContent = total;
     $("#stat-anim").textContent = ANIMATIONS.length;
     $("#stat-sound").textContent = SOUNDS.length;
+    $("#stat-jjs").textContent = JJS.length;
+    $("#stat-total").textContent = total;
 
     $("#extract-btn").addEventListener("click", runExtract);
     $("#extract-input").addEventListener("keydown", function (e) { if (e.key === "Enter") runExtract(); });
@@ -273,7 +279,8 @@
       if (e.target.id === "search-this") {
         var id = extractId($("#extract-input").value);
         if (!id) return;
-        var target = ANIMATIONS.some(function (x) { return x.id === id; }) ? "animations" : "sounds";
+        var target = ANIMATIONS.some(function (x) { return x.id === id; }) ? "animations"
+                   : (JJS.some(function (x) { return x.id === id; }) ? "jjs" : "sounds");
         var sec = document.getElementById(target);
         var input = $('[data-lib-search="' + target + '"]', sec);
         input.value = id;
