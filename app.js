@@ -1,6 +1,6 @@
 /* Blox ID Vault — front-end
- * Two independent library sections (animations, sounds) built from one reusable
- * component, plus an ID extractor and shared favourites.
+ * Works across pages: each page contains ONE library section
+ * (#animations, #sounds or #jjs) and this script initialises whichever is present.
  */
 (function () {
   "use strict";
@@ -10,7 +10,6 @@
 
   // ---------- tiny helpers ----------
   function $(sel, root) { return (root || document).querySelector(sel); }
-  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -32,6 +31,7 @@
   var toastTimer = null;
   function toast(msg) {
     var el = $("#toast");
+    if (!el) return;
     el.textContent = msg; el.hidden = false;
     requestAnimationFrame(function () { el.classList.add("show"); });
     clearTimeout(toastTimer);
@@ -59,13 +59,10 @@
   // ---------- reusable library component ----------
   function createLibrary(name, data) {
     var root = document.getElementById(name);
+    if (!root || !data) return null;
+
     var lib = {
-      name: name,
-      data: data,
-      query: "",
-      category: "All",
-      favOnly: false,
-      sort: "featured",
+      name: name, data: data, query: "", category: "All", favOnly: false, sort: "featured",
       el: {
         search: $('[data-lib-search="' + name + '"]', root),
         sort: $('[data-lib-sort="' + name + '"]', root),
@@ -78,19 +75,16 @@
     };
 
     function key(item) { return name + ":" + item.id + ":" + item.name; }
-
     function categories() {
       var seen = {}, out = [];
       data.forEach(function (d) { if (!seen[d.category]) { seen[d.category] = true; out.push(d.category); } });
       return out;
     }
-
     function matches(item, q) {
       if (!q) return true;
       var hay = (item.name + " " + item.id + " " + item.category + " " + (item.tags || []).join(" ")).toLowerCase();
       return hay.indexOf(q) !== -1;
     }
-
     function sorted(rows) {
       var arr = rows.slice();
       switch (lib.sort) {
@@ -118,7 +112,6 @@
         return matches(item, q);
       });
       rows = sorted(rows);
-
       lib.el.count.textContent = rows.length + (rows.length === 1 ? " ID" : " IDs");
 
       if (!rows.length) {
@@ -159,7 +152,6 @@
       }).join("");
     }
 
-    // events scoped to this library
     lib.el.search.addEventListener("input", function (e) { lib.query = e.target.value; render(); });
     lib.el.sort.addEventListener("change", function (e) { lib.sort = e.target.value; render(); });
     lib.el.favBtn.addEventListener("click", function () {
@@ -206,7 +198,6 @@
     runs.forEach(function (r) { if (r.length > best.length) best = r; });
     return best;
   }
-
   function guessType(id) {
     var a = ANIMATIONS.filter(function (x) { return x.id === id; })[0];
     if (a) return { type: "Animation", name: a.name };
@@ -216,7 +207,6 @@
     if (s) return { type: "Sound / audio", name: s.name };
     return { type: "Not in the vault (asset ID)", name: null };
   }
-
   function runExtract() {
     var out = $("#extract-out");
     var id = extractId($("#extract-input").value);
@@ -234,71 +224,64 @@
         (g.name ? " — matches <strong>" + esc(g.name) + "</strong> in the vault" : "") + "</div>" +
       '<div class="extract-actions">' +
         '<button class="btn btn-primary" data-copy="' + esc(id) + '" data-label="asset">Copy ID</button>' +
-        '<button class="btn btn-ghost" id="search-this">Search in vault</button>' +
+        '<button class="btn btn-ghost" id="search-this">Find in vault</button>' +
         '<a class="btn btn-ghost" href="https://create.roblox.com/store/asset/' + id + '" target="_blank" rel="noopener">Creator Store ↗</a>' +
         '<a class="btn btn-ghost" href="https://www.roblox.com/library/' + id + '" target="_blank" rel="noopener">Library ↗</a>' +
       "</div>";
   }
 
-  // ---------- scrollspy ----------
-  function initScrollspy() {
-    var links = {};
-    $all(".header-nav a").forEach(function (a) { links[a.getAttribute("data-nav")] = a; });
-    var sections = $all("section[data-section], #extractor, #guide");
-    if (!("IntersectionObserver" in window)) return;
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        var id = en.target.id;
-        Object.keys(links).forEach(function (k) { links[k].classList.toggle("active", k === id); });
-      });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-    sections.forEach(function (s) { obs.observe(s); });
-  }
-
   // ---------- init ----------
   document.addEventListener("DOMContentLoaded", function () {
-    createLibrary("animations", ANIMATIONS);
-    createLibrary("sounds", SOUNDS);
-    createLibrary("jjs", JJS);
+    var DATA = { animations: ANIMATIONS, sounds: SOUNDS, jjs: JJS };
 
-    var total = ANIMATIONS.length + SOUNDS.length + JJS.length;
-    $("#total-count").textContent = total;
-    $("#stat-anim").textContent = ANIMATIONS.length;
-    $("#stat-sound").textContent = SOUNDS.length;
-    $("#stat-jjs").textContent = JJS.length;
-    $("#stat-total").textContent = total;
-
-    $("#extract-btn").addEventListener("click", runExtract);
-    $("#extract-input").addEventListener("keydown", function (e) { if (e.key === "Enter") runExtract(); });
-
-    // delegated copy for extractor output
-    $("#extract-out").addEventListener("click", function (e) {
-      var copyEl = e.target.closest("[data-copy]");
-      if (copyEl) { copyText(copyEl.getAttribute("data-copy"), copyEl.getAttribute("data-label")); return; }
-      if (e.target.id === "search-this") {
-        var id = extractId($("#extract-input").value);
-        if (!id) return;
-        var target = ANIMATIONS.some(function (x) { return x.id === id; }) ? "animations"
-                   : (JJS.some(function (x) { return x.id === id; }) ? "jjs" : "sounds");
-        var sec = document.getElementById(target);
-        var input = $('[data-lib-search="' + target + '"]', sec);
-        input.value = id;
-        input.dispatchEvent(new Event("input", { bubbles: true }));
-        sec.scrollIntoView({ behavior: "smooth" });
-        input.focus();
-      }
+    Object.keys(DATA).forEach(function (name) {
+      if (document.getElementById(name)) createLibrary(name, DATA[name]);
     });
 
-    // "/" focuses the nearest library search
+    // pre-fill search from ?q=
+    var q = new URLSearchParams(location.search).get("q");
+    var firstSearch = $("[data-lib-search]");
+    if (q && firstSearch) {
+      firstSearch.value = q;
+      firstSearch.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    // counts (only where the elements exist)
+    var total = ANIMATIONS.length + SOUNDS.length + JJS.length;
+    var el;
+    if ((el = $("#total-count"))) el.textContent = total;
+    if ((el = $("#stat-anim"))) el.textContent = ANIMATIONS.length;
+    if ((el = $("#stat-sound"))) el.textContent = SOUNDS.length;
+    if ((el = $("#stat-jjs"))) el.textContent = JJS.length;
+    if ((el = $("#stat-total"))) el.textContent = total;
+    if ((el = $("#home-anim"))) el.textContent = ANIMATIONS.length;
+    if ((el = $("#home-sound"))) el.textContent = SOUNDS.length;
+    if ((el = $("#home-jjs"))) el.textContent = JJS.length;
+
+    // extractor (home page only)
+    if ($("#extract-btn")) {
+      $("#extract-btn").addEventListener("click", runExtract);
+      $("#extract-input").addEventListener("keydown", function (e) { if (e.key === "Enter") runExtract(); });
+      $("#extract-out").addEventListener("click", function (e) {
+        var copyEl = e.target.closest("[data-copy]");
+        if (copyEl) { copyText(copyEl.getAttribute("data-copy"), copyEl.getAttribute("data-label")); return; }
+        if (e.target.id === "search-this") {
+          var id = extractId($("#extract-input").value);
+          if (!id) return;
+          var target = ANIMATIONS.some(function (x) { return x.id === id; }) ? "animations"
+                     : (JJS.some(function (x) { return x.id === id; }) ? "jjs" : "sounds");
+          location.href = target + ".html?q=" + encodeURIComponent(id);
+        }
+      });
+    }
+
+    // "/" focuses search
     document.addEventListener("keydown", function (e) {
       if (e.key !== "/" || /input|textarea|select/i.test(document.activeElement.tagName)) return;
+      var s = $("[data-lib-search]");
+      if (!s) return;
       e.preventDefault();
-      var sec = document.getElementById("animations");
-      var first = $('[data-lib-search="animations"]', sec);
-      first.focus(); first.scrollIntoView({ behavior: "smooth", block: "center" });
+      s.focus(); s.scrollIntoView({ behavior: "smooth", block: "center" });
     });
-
-    initScrollspy();
   });
 })();
