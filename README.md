@@ -5,11 +5,12 @@ Static, dependency-free, and ready to deploy on Render (or GitHub Pages / Netlif
 
 ## What it does
 
-The site is organised into **two main sections**:
+The site is organised into **three pages** (linked from the home page):
 
-1. **Animation IDs** — default character locomotion (R15, R6, and the 2023 R15-migrated set),
+1. **Animation IDs** (`animations.html`) — default character locomotion (R15, R6, and the 2023 R15-migrated set),
    built-in emotes, and popular catalog emotes.
-2. **Sound IDs** — audio asset IDs for music, memes, sound effects, ambient loops and UI.
+2. **Sound IDs** (`sounds.html`) — audio asset IDs for music, memes, sound effects, ambient loops and UI.
+3. **Jujutsu Shenanigans IDs** (`jjs.html`) — verified JJS custom kill sounds (anime, meme, voice-line, game SFX).
 
 Each section has its own search, category filter chips, sort (featured / name / ID / category),
 a favourites filter, and a live count. Every ID has one-click copy.
@@ -25,9 +26,12 @@ Also included:
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Page structure (hero, two sections, extractor, guide) |
+| `index.html` | Home — hero, three section buttons, ID extractor, guide |
+| `animations.html` | Animation IDs page |
+| `sounds.html` | Sound IDs page |
+| `jjs.html` | Jujutsu Shenanigans IDs page |
 | `styles.css` | Styling |
-| `app.js` | Reusable per-section library component, extractor, favourites |
+| `app.js` | Per-page library component, extractor, favourites |
 | `data.js` | The ID data — edit this to add your own IDs |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 
