@@ -32,6 +32,7 @@
       <nav class="header-nav" id="nav">
         <a href="#animations" data-nav="animations">Animation IDs</a>
         <a href="#sounds" data-nav="sounds">Sound IDs</a>
+        <a href="#jjs" data-nav="jjs">JJS IDs</a>
         <a href="#extractor" data-nav="extractor">Extractor</a>
         <a href="#guide" data-nav="guide">Guide</a>
       </nav>
@@ -56,12 +57,13 @@
         <div class="hero-stats">
           <div class="stat"><span class="stat-num" id="stat-anim">0</span><span class="stat-label">Animation IDs</span></div>
           <div class="stat"><span class="stat-num" id="stat-sound">0</span><span class="stat-label">Sound IDs</span></div>
-          <div class="stat"><span class="stat-num">2</span><span class="stat-label">Sections</span></div>
-          <div class="stat"><span class="stat-num">0</span><span class="stat-label">Dependencies</span></div>
+          <div class="stat"><span class="stat-num" id="stat-jjs">0</span><span class="stat-label">JJS IDs</span></div>
+          <div class="stat"><span class="stat-num" id="stat-total">0</span><span class="stat-label">Total IDs</span></div>
         </div>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#animations">Animation IDs</a>
           <a class="btn btn-accent" href="#sounds">Sound IDs</a>
+          <a class="btn btn-ghost" href="#jjs">JJS IDs</a>
           <a class="btn btn-ghost" href="#extractor">Extract from a link</a>
         </div>
       </div>
@@ -146,6 +148,49 @@
           <strong>Heads up on sound IDs.</strong> Since Roblox's 2022 audio privacy update, uploaded
           audio can be private, removed, or blocked per-experience. A valid ID can still be silent in a
           specific game — test in-game. Default animation IDs don't have this issue.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION: JUJUTSU SHENANIGANS IDS ===== -->
+    <section id="jjs" class="section" data-section="jjs">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-icon jjs" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
+          </div>
+          <div class="section-title">
+            <h2>Jujutsu Shenanigans IDs</h2>
+            <p>Custom kill sound IDs for <strong>Jujutsu Shenanigans</strong> (JJS) — anime, meme, voice-line and game SFX clips. In-game these need the <em>Custom Kill Sound</em> gamepass.</p>
+            <p class="verified">✓ every ID verified as a live audio asset on Roblox</p>
+          </div>
+          <div class="section-badge" data-lib-count="jjs">—</div>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-wrap">
+            <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="search" data-lib-search="jjs" type="search" placeholder="Search JJS sounds — zawarudo, hawk tuah, fahh, 8762717966…" autocomplete="off" />
+          </label>
+          <label class="select-wrap">
+            <select class="sort" data-lib-sort="jjs">
+              <option value="featured">Sort: Featured</option>
+              <option value="name">Name A–Z</option>
+              <option value="id-asc">ID ↑</option>
+              <option value="id-desc">ID ↓</option>
+              <option value="category">Category</option>
+            </select>
+          </label>
+          <button class="btn btn-ghost small" data-lib-fav="jjs" type="button">★ Favourites</button>
+        </div>
+
+        <div class="chips" data-lib-chips="jjs"></div>
+        <div class="results" data-lib-results="jjs"></div>
+        <p class="empty" data-lib-empty="jjs" hidden></p>
+
+        <div class="callout warn">
+          <strong>How to use these.</strong> In Jujutsu Shenanigans, buy the <em>Custom Kill Sound</em> gamepass, then open
+          Settings → Audio → Custom Kill Sound and paste the ID. Some IDs use the newer long format and may not play for everyone.
         </div>
       </div>
     </section>
