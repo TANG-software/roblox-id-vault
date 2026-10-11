@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blox ID Vault — Roblox Animation IDs &amp; Sound IDs</title>
-  <meta name="description" content="A fast reference for Roblox animation IDs and sound/audio IDs. Search, sort, copy, extract IDs from links, and read the technical usage guide." />
+  <title>Blox ID Vault — Roblox Animation IDs, Sound IDs &amp; JJS IDs</title>
+  <meta name="description" content="A fast reference for Roblox animation IDs, sound/audio IDs and Jujutsu Shenanigans kill sound IDs. Search, copy, extract IDs from links, and read the usage guide." />
   <meta name="theme-color" content="#070810" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,10 +19,9 @@
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
 
-  <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="#top">
+      <a class="brand" href="index.html">
         <span class="brand-mark">ID</span>
         <span class="brand-text">
           <span class="brand-name">Blox ID Vault</span>
@@ -30,11 +29,11 @@
         </span>
       </a>
       <nav class="header-nav" id="nav">
-        <a href="#animations" data-nav="animations">Animation IDs</a>
-        <a href="#sounds" data-nav="sounds">Sound IDs</a>
-        <a href="#jjs" data-nav="jjs">JJS IDs</a>
-        <a href="#extractor" data-nav="extractor">Extractor</a>
-        <a href="#guide" data-nav="guide">Guide</a>
+        <a href="animations.html" data-nav="animations">Animation IDs</a>
+        <a href="sounds.html" data-nav="sounds">Sound IDs</a>
+        <a href="jjs.html" data-nav="jjs">JJS IDs</a>
+        <a href="index.html#extractor" data-nav="extractor">Extractor</a>
+        <a href="index.html#guide" data-nav="guide">Guide</a>
       </nav>
       <div class="header-meta">
         <span class="status-dot" title="Static build"></span>
@@ -44,15 +43,14 @@
   </header>
 
   <main id="top">
-    <!-- ===== HERO ===== -->
     <section class="hero">
       <div class="wrap">
         <span class="eyebrow">Static reference · no login · no tracking</span>
-        <h1>Every Roblox <span class="grad">animation</span> &amp; <span class="grad2">sound</span> ID in one vault</h1>
+        <h1>Every Roblox <span class="grad">animation</span>, <span class="grad2">sound</span> &amp; <span class="grad">JJS</span> ID in one vault</h1>
         <p class="lede">
-          A technical reference for players and developers. Two curated sections — animation IDs
-          and sound/audio IDs — with instant search, sorting, one-click copy, a link-to-ID
-          extractor, and the exact Lua to put them to work.
+          A technical reference for players and developers. Three separate pages — animation IDs, sound/audio IDs,
+          and Jujutsu Shenanigans kill sounds — each with instant search, sorting, one-click copy and the exact code
+          to put them to work.
         </p>
         <div class="hero-stats">
           <div class="stat"><span class="stat-num" id="stat-anim">0</span><span class="stat-label">Animation IDs</span></div>
@@ -61,136 +59,55 @@
           <div class="stat"><span class="stat-num" id="stat-total">0</span><span class="stat-label">Total IDs</span></div>
         </div>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#animations">Animation IDs</a>
-          <a class="btn btn-accent" href="#sounds">Sound IDs</a>
-          <a class="btn btn-ghost" href="#jjs">JJS IDs</a>
-          <a class="btn btn-ghost" href="#extractor">Extract from a link</a>
+          <a class="btn btn-primary" href="animations.html">Animation IDs</a>
+          <a class="btn btn-accent" href="sounds.html">Sound IDs</a>
+          <a class="btn btn-jjs" href="jjs.html">JJS IDs</a>
         </div>
       </div>
     </section>
 
-    <!-- ===== SECTION: ANIMATION IDS ===== -->
-    <section id="animations" class="section" data-section="animations">
+    <section class="section">
       <div class="wrap">
         <div class="section-head">
-          <div class="section-icon anim" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
+          <div class="section-icon tool" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
           </div>
           <div class="section-title">
-            <h2>Animation IDs</h2>
-            <p>Default character locomotion (R15, R6, and the 2023 R15-migrated set), built-in emotes, and popular catalog emotes.</p>
-            <p class="verified">✓ every ID verified against Roblox's asset API</p>
+            <h2>Browse the vault</h2>
+            <p>Pick a section — each one opens its own page with every ID in it.</p>
           </div>
-          <div class="section-badge" data-lib-count="animations">—</div>
         </div>
-
-        <div class="toolbar">
-          <label class="search-wrap">
-            <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input class="search" data-lib-search="animations" type="search" placeholder="Search animations — dance, walk, jump, emote, 507777826…" autocomplete="off" />
-            <kbd>/</kbd>
-          </label>
-          <label class="select-wrap">
-            <select class="sort" data-lib-sort="animations">
-              <option value="featured">Sort: Featured</option>
-              <option value="name">Name A–Z</option>
-              <option value="id-asc">ID ↑</option>
-              <option value="id-desc">ID ↓</option>
-              <option value="category">Category</option>
-            </select>
-          </label>
-          <button class="btn btn-ghost small" data-lib-fav="animations" type="button">★ Favourites</button>
-        </div>
-
-        <div class="chips" data-lib-chips="animations"></div>
-        <div class="results" data-lib-results="animations"></div>
-        <p class="empty" data-lib-empty="animations" hidden></p>
-      </div>
-    </section>
-
-    <!-- ===== SECTION: SOUND IDS ===== -->
-    <section id="sounds" class="section alt" data-section="sounds">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="section-icon sound" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-          </div>
-          <div class="section-title">
-            <h2>Sound IDs</h2>
-            <p>Audio asset IDs for music, memes, sound effects, ambient loops and UI — usable in a <code>Sound</code> object, a boombox, a radio or a car stereo.</p>
-            <p class="verified">✓ every ID verified as a live audio asset on Roblox</p>
-          </div>
-          <div class="section-badge" data-lib-count="sounds">—</div>
-        </div>
-
-        <div class="toolbar">
-          <label class="search-wrap">
-            <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input class="search" data-lib-search="sounds" type="search" placeholder="Search sounds — phonk, meme, oof, jazz, 142376088…" autocomplete="off" />
-          </label>
-          <label class="select-wrap">
-            <select class="sort" data-lib-sort="sounds">
-              <option value="featured">Sort: Featured</option>
-              <option value="name">Name A–Z</option>
-              <option value="id-asc">ID ↑</option>
-              <option value="id-desc">ID ↓</option>
-              <option value="category">Category</option>
-            </select>
-          </label>
-          <button class="btn btn-ghost small" data-lib-fav="sounds" type="button">★ Favourites</button>
-        </div>
-
-        <div class="chips" data-lib-chips="sounds"></div>
-        <div class="results" data-lib-results="sounds"></div>
-        <p class="empty" data-lib-empty="sounds" hidden></p>
-
-        <div class="callout warn">
-          <strong>Heads up on sound IDs.</strong> Since Roblox's 2022 audio privacy update, uploaded
-          audio can be private, removed, or blocked per-experience. A valid ID can still be silent in a
-          specific game — test in-game. Default animation IDs don't have this issue.
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== SECTION: JUJUTSU SHENANIGANS IDS ===== -->
-    <section id="jjs" class="section" data-section="jjs">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="section-icon jjs" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
-          </div>
-          <div class="section-title">
-            <h2>Jujutsu Shenanigans IDs</h2>
-            <p>Custom kill sound IDs for <strong>Jujutsu Shenanigans</strong> (JJS) — anime, meme, voice-line and game SFX clips. In-game these need the <em>Custom Kill Sound</em> gamepass.</p>
-            <p class="verified">✓ every ID verified as a live audio asset on Roblox</p>
-          </div>
-          <div class="section-badge" data-lib-count="jjs">—</div>
-        </div>
-
-        <div class="toolbar">
-          <label class="search-wrap">
-            <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input class="search" data-lib-search="jjs" type="search" placeholder="Search JJS sounds — zawarudo, hawk tuah, fahh, 8762717966…" autocomplete="off" />
-          </label>
-          <label class="select-wrap">
-            <select class="sort" data-lib-sort="jjs">
-              <option value="featured">Sort: Featured</option>
-              <option value="name">Name A–Z</option>
-              <option value="id-asc">ID ↑</option>
-              <option value="id-desc">ID ↓</option>
-              <option value="category">Category</option>
-            </select>
-          </label>
-          <button class="btn btn-ghost small" data-lib-fav="jjs" type="button">★ Favourites</button>
-        </div>
-
-        <div class="chips" data-lib-chips="jjs"></div>
-        <div class="results" data-lib-results="jjs"></div>
-        <p class="empty" data-lib-empty="jjs" hidden></p>
-
-        <div class="callout warn">
-          <strong>How to use these.</strong> In Jujutsu Shenanigans, buy the <em>Custom Kill Sound</em> gamepass, then open
-          Settings → Audio → Custom Kill Sound and paste the ID. Some IDs use the newer long format and may not play for everyone.
+        <div class="home-cards">
+          <a class="home-card" href="animations.html">
+            <div class="hc-top">
+              <div class="section-icon anim" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
+              </div>
+              <h3>Animation IDs</h3>
+            </div>
+            <p>Default character locomotion (R15, R6, R15-migrated), built-in emotes, and catalog emotes.</p>
+            <div class="hc-foot"><span class="hc-count"><span id="home-anim">0</span> IDs</span><span class="hc-go">Open →</span></div>
+          </a>
+          <a class="home-card" href="sounds.html">
+            <div class="hc-top">
+              <div class="section-icon sound" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+              </div>
+              <h3>Sound IDs</h3>
+            </div>
+            <p>Music, memes, sound effects, ambient loops and UI audio for boomboxes and <code>Sound</code> objects.</p>
+            <div class="hc-foot"><span class="hc-count"><span id="home-sound">0</span> IDs</span><span class="hc-go">Open →</span></div>
+          </a>
+          <a class="home-card" href="jjs.html">
+            <div class="hc-top">
+              <div class="section-icon jjs" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg>
+              </div>
+              <h3>Jujutsu Shenanigans IDs</h3>
+            </div>
+            <p>Custom kill sounds for JJS — anime, meme, voice-line and game SFX clips.</p>
+            <div class="hc-foot"><span class="hc-count"><span id="home-jjs">0</span> IDs</span><span class="hc-go">Open →</span></div>
+          </a>
         </div>
       </div>
     </section>
@@ -204,8 +121,7 @@
       </div>
     </section>
 
-    <!-- ===== EXTRACTOR ===== -->
-    <section id="extractor" class="section">
+    <section id="extractor" class="section alt">
       <div class="wrap">
         <div class="section-head">
           <div class="section-icon tool" aria-hidden="true">
@@ -224,8 +140,7 @@
       </div>
     </section>
 
-    <!-- ===== GUIDE ===== -->
-    <section id="guide" class="section alt">
+    <section id="guide" class="section">
       <div class="wrap">
         <div class="section-head">
           <div class="section-icon book" aria-hidden="true">
@@ -236,7 +151,6 @@
             <p>Copy-paste snippets for animations and audio, plus how to swap a default animation.</p>
           </div>
         </div>
-
         <div class="howto-grid">
           <div class="code-card">
             <div class="code-head"><span>Play an animation</span><span class="lang">Luau</span></div>
@@ -252,7 +166,6 @@ anim.AnimationId = "rbxassetid://507771019" -- default dance
 local track = animator:LoadAnimation(anim)
 track:Play()</code></pre>
           </div>
-
           <div class="code-card">
             <div class="code-head"><span>Replace a default animation</span><span class="lang">Luau</span></div>
             <pre><code>local Players = game:GetService("Players")
@@ -265,7 +178,6 @@ Players.PlayerAdded:Connect(function(player)
   end)
 end)</code></pre>
           </div>
-
           <div class="code-card">
             <div class="code-head"><span>Play a sound (Studio)</span><span class="lang">Luau</span></div>
             <pre><code>local sound = Instance.new("Sound")
@@ -274,7 +186,6 @@ sound.Volume = 1
 sound.Parent = workspace
 sound:Play()</code></pre>
           </div>
-
           <div class="howto-card">
             <h3>Use a sound in-game (boombox)</h3>
             <ol>
