@@ -144,9 +144,9 @@
             "</div>" +
             (tags ? '<div class="card-tags">' + tags + "</div>" : "") +
             '<div class="card-links">' +
-              '<a href="' + store_url + '" target="_blank" rel="noopener">Creator Store ↗</a>' +
-              '<a href="' + lib_url + '" target="_blank" rel="noopener">Library ↗</a>' +
-            "</div>" +
+          '<a class="preview" href="' + store_url + '" target="_blank" rel="noopener" title="Opens the asset on Roblox — sign in there to play it">▶ Preview on Roblox</a>' +
+          '<a href="' + lib_url + '" target="_blank" rel="noopener">Library ↗</a>' +
+        "</div>" +
           "</article>"
         );
       }).join("");
