@@ -237,6 +237,7 @@ code { font-family: var(--mono); font-size: .88em; background: rgba(139,92,255,.
 .card-links { display: flex; gap: 14px; font-size: .78rem; margin-top: auto; }
 .card-links a { color: var(--accent-2); text-decoration: none; font-weight: 500; }
 .card-links a:hover { text-decoration: underline; }
+.card-links a.preview { color: var(--good); font-weight: 700; }
 
 .empty { text-align: center; color: var(--muted); padding: 44px 0; font-size: .95rem; }
 
